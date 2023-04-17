@@ -60,12 +60,12 @@ module.exports = {
                     },
                     limit: 1
                 })
-                    .then(solicitud => {
-                        if (solicitud && solicitud.length > 0) {
-                            if (solicitud[0].dataValues && solicitud[0].dataValues.id) {
+                    .then(solicitudes => {
+                        if (solicitudes && solicitudes.length > 0) {
+                            if (solicitudes[0].dataValues && solicitudes[0].dataValues.id) {
                                 solicitud.update({ calificacionCliente: req.body.calificacionCliente, comentarioCliente: req.body.comentarioCliente }, {
                                     where: {
-                                        id: solicitud[0].dataValues.id
+                                        id: solicitudes[0].dataValues.id
                                     }
                                 })
                                     .then(solicitudFinalizar => {
@@ -131,12 +131,10 @@ module.exports = {
                     })
                     .catch(error => {
                         console.log(error)
-                        var queue = 'enviarEmit';
-                        console.log('Enviando la información del conductor')
-                        rabbit.sendToQueue(queue, Buffer.from(JSON.stringify({ en: -1, idCliente: d.idCliente })), {
-                            persistent: true
-                        });
-                        console.log('Mensaje enviado');
+                        return res.status(200).send({
+                            en: -1,
+                            m: 'No se logró finalizar y calificar la solicitud, por favor, inténtelo nuevamente'
+                        })
                     })
             } else
                 return res.status(200).send({
