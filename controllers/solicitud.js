@@ -190,12 +190,12 @@ module.exports = {
                     },
                     limit: 1
                 })
-                    .then(solicitud => {
-                        if (solicitud && solicitud.length > 0) {
-                            if (solicitud[0].dataValues && solicitud[0].dataValues.id) {
+                    .then(solicitudes => {
+                        if (solicitudes && solicitudes.length > 0) {
+                            if (solicsolicitudesitud[0].dataValues && solicitudes[0].dataValues.id) {
                                 solicitud.update({ calificacionConductor: req.body.calificacionConductor, comentarioConductor: req.body.comentarioConductor, precio: req.body.precio }, {
                                     where: {
-                                        id: solicitud[0].dataValues.id
+                                        id: solicitudes[0].dataValues.id
                                     }
                                 })
                                     .then(solicitudFinalizar => {
